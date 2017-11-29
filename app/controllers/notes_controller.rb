@@ -1,5 +1,7 @@
 class NotesController < ApplicationController
 
+before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
+
   def index
     @notes = Note.all
     @users = User.all
@@ -7,7 +9,7 @@ class NotesController < ApplicationController
   end
 
   def create
-    @note = Note.new(note_params)
+    @note = current_user.notes.new(note_params)
     if @note.save
       flash[:notice] = "Note saved!"
       redirect_to notes_path

@@ -1,10 +1,11 @@
 h1.jumbotron Welcome to Kenneth's Notes App!
 
 .container
-  .row
-    .col-10.card.p-4.m-4
-      h2 Add a note!
-      = render partial: 'new'
+  - if user_signed_in?
+    .row
+      .col-10.card.p-4.m-4
+        h2 Add a note!
+        = render partial: 'new'
 
   .row
     .col-5.card.p-4.m-3
@@ -16,6 +17,9 @@ h1.jumbotron Welcome to Kenneth's Notes App!
       - @notes.each do |note|
         h5 = note.title
         p = note.body
-        = link_to 'Edit', edit_note_path(note), class: 'btn'
-        = link_to 'Delete', note_path(note), method: :delete, class: 'btn'
+        p = 'by ' + note.user.email
+        p.small = 'About '+ time_ago_in_words(note.created_at) + ' ago'
+        - if user_signed_in?
+          = link_to 'Edit', edit_note_path(note), class: 'btn'
+          = link_to 'Delete', note_path(note), method: :delete, class: 'btn'
         hr
