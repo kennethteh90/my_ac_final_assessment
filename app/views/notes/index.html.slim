@@ -22,8 +22,14 @@ h1.jumbotron Welcome to Kenneth's Notes App!
         h5 = note.title
         p = note.body
         p = 'by ' + note.user.email
+        p = 'Liked by: ' + note.likes.count.to_s
         p.small = 'About '+ time_ago_in_words(note.created_at) + ' ago'
         - if user_signed_in?
-          = link_to 'Edit', edit_note_path(note), class: 'btn'
-          = link_to 'Delete', note_path(note), method: :delete, class: 'btn'
+          - unless current_user.liked?(note)
+            = link_to 'Like', likes_path(note), method: :create, class: 'btn'
+          - if current_user.liked?(note)
+            = link_to 'Unlike', like_path(note), method: :delete, class: 'btn'
+          - if current_user == note.user
+            = link_to 'Edit', edit_note_path(note), class: 'btn'
+            = link_to 'Delete', note_path(note), method: :delete, class: 'btn'
         hr
