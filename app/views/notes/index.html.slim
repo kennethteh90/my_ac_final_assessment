@@ -1,4 +1,4 @@
-h1.jumbotron Welcome to Kenneth's Notes App!
+h1.jumbotron.bg-warning Welcome to Kenneth's Notes App!
 
 .container
   - if user_signed_in?
@@ -9,27 +9,31 @@ h1.jumbotron Welcome to Kenneth's Notes App!
 
   .row
     .col-5.card.p-4.m-3
-      - if user_signed_in?
-        h2 Followed Users
-      - else
-        h2 Users
-      - @users.each do |user|
-        p = user.email
-        hr
-    .col-5.card.p-4.m-3
-      h2 Notes
-      - @notes.each do |note|
-        h5 = note.title
-        p = note.body
-        p = 'by ' + note.user.email
-        p = 'Liked by: ' + note.likes.count.to_s
-        p.small = time_ago_in_words(note.created_at) + ' ago'
+      .card-header
         - if user_signed_in?
-          - unless current_user.liked?(note)
-            = link_to 'Like', likes_path(note), method: :create, class: 'btn'
-          - if current_user.liked?(note)
-            = link_to 'Unlike', like_path(note), method: :delete, class: 'btn'
-          - if current_user == note.user
-            = link_to 'Edit', edit_note_path(note), class: 'btn'
-            = link_to 'Delete', note_path(note), method: :delete, class: 'btn'
-        hr
+          h2 Followed Users
+        - else
+          h2 Users
+      .card-body
+        - @users.each do |user|
+          p = user.email
+          hr
+    .col-5.card.p-4.m-3
+      .card-header
+        h2 Notes
+      .card-body
+        - @notes.each do |note|
+          h5 = note.title
+          p = note.body
+          p = 'by ' + note.user.email
+          p = 'Liked by: ' + note.likes.count.to_s
+          p.small = time_ago_in_words(note.created_at) + ' ago'
+          - if user_signed_in?
+            - unless current_user.liked?(note)
+              = link_to 'Like', likes_path(note), method: :create, class: 'btn'
+            - if current_user.liked?(note)
+              = link_to 'Unlike', like_path(note), method: :delete, class: 'btn'
+            - if current_user == note.user
+              = link_to 'Edit', edit_note_path(note), class: 'btn'
+              = link_to 'Delete', note_path(note), method: :delete, class: 'btn'
+          hr

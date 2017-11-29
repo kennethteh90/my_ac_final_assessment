@@ -16,7 +16,7 @@ RSpec.describe NotesController, type: :controller do
 
     end
 
-    context 'User logged in, only show followed users and notes' do
+    context 'User logged in, only show followed users and notes (besides own)' do
 
       before do
         sign_in note.user
@@ -24,7 +24,7 @@ RSpec.describe NotesController, type: :controller do
       end
 
       it { expect(assigns(:users)).to be_empty }
-      it { expect(assigns(:notes)).to be_empty }
+      it { expect(assigns(:notes).count).to eq(1) }
 
     end
 
@@ -32,14 +32,31 @@ RSpec.describe NotesController, type: :controller do
 
   describe 'POST#create' do
 
-    before do
-      sign_in note.user
-      post :create, params: { note: attributes_for(:note) }
+    context 'when save is successful' do
+
+      before do
+        sign_in note.user
+        post :create, params: { note: attributes_for(:note) }
+      end
+
+      it { expect(assigns(:note)).to be_a(Note) }
+      it { is_expected.to set_flash[:notice] }
+      it { expect(:subject).to redirect_to(notes_path) }
+
     end
 
-    it { expect(assigns(:note)).to be_a(Note) }
-    it { is_expected.to set_flash[:notice] }
-    it { expect(:subject).to redirect_to(notes_path) }
+    context 'when save is unsuccessful' do
+
+      before do
+        sign_in note.user
+        post :create, params: { note: attributes_for(:note, :invalid) }
+      end
+
+      it { expect(assigns(:note)).to be_a(Note) }
+      it { is_expected.to set_flash.now[:alert] }
+      it { expect(:subject).to render_template(:index) }
+
+    end
 
   end
 
@@ -94,9 +111,6 @@ RSpec.describe NotesController, type: :controller do
 
     end
 
-
   end
-
-
 
 end

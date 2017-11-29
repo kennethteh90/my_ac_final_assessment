@@ -5,7 +5,8 @@ before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
   def index
     if user_signed_in?
       @users = current_user.followees
-      @notes = Note.where(id: @users).reverse
+      @note_users = [current_user] + @users
+      @notes = Note.where(user_id: @note_users).reverse
     else
       @users = User.all
       @notes = Note.all.reverse
@@ -18,6 +19,18 @@ before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
     if @note.save
       flash[:notice] = "Note saved!"
       redirect_to notes_path
+    else
+      if user_signed_in?
+        @users = current_user.followees
+        @note_users = [current_user] + @users
+        @notes = Note.where(user_id: @note_users)
+      else
+        @users = User.all
+        @notes = Note.all.reverse
+      end
+      @note = Note.new
+      flash.now[:alert] = "Oops! Note not saved!"
+      render :index
     end
   end
 
