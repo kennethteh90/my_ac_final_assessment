@@ -4,6 +4,8 @@ class LikesController < ApplicationController
     @note = Note.find(params[:format])
     if current_user.like(@note)
       flash[:notice] = "You have liked the note!"
+      # byebug
+      UserMailer.notification(@note.user).deliver_later
       redirect_to notes_path
     end
   end
