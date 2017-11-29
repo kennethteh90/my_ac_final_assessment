@@ -1,0 +1,13 @@
+h1.jumbotron Users | Kenneth's Notes App!
+
+.container
+  .row
+    .col-10.card.p-4.m-3
+      h2 Users
+      - @users.each do |user|
+        h5 = user.email
+        - if !user.notes.empty?
+          p = 'Last Note: ' + user.notes.last.title + ' - ' + user.notes.last.body
+        - else
+          p This user hasn't posted anything!
+        hr

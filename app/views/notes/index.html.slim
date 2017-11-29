@@ -11,7 +11,8 @@ h1.jumbotron Welcome to Kenneth's Notes App!
     .col-5.card.p-4.m-3
       h2 Users
       - @users.each do |user|
-        = user.email
+        p = user.email
+        hr
     .col-5.card.p-4.m-3
       h2 Notes
       - @notes.each do |note|
