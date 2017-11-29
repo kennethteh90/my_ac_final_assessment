@@ -3,8 +3,13 @@ class NotesController < ApplicationController
 before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
 
   def index
-    @notes = Note.all
-    @users = User.all
+    if user_signed_in?
+      @users = current_user.followees
+      @notes = Note.where(id: @users)
+    else
+      @users = User.all
+      @notes = Note.all
+    end
     @note = Note.new
   end
 

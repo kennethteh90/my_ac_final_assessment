@@ -9,7 +9,10 @@ h1.jumbotron Welcome to Kenneth's Notes App!
 
   .row
     .col-5.card.p-4.m-3
-      h2 Users
+      - if user_signed_in?
+        h2 Followed Users
+      - else
+        h2 Users
       - @users.each do |user|
         p = user.email
         hr
