@@ -23,7 +23,7 @@ h1.jumbotron Welcome to Kenneth's Notes App!
         p = note.body
         p = 'by ' + note.user.email
         p = 'Liked by: ' + note.likes.count.to_s
-        p.small = 'About '+ time_ago_in_words(note.created_at) + ' ago'
+        p.small = time_ago_in_words(note.created_at) + ' ago'
         - if user_signed_in?
           - unless current_user.liked?(note)
             = link_to 'Like', likes_path(note), method: :create, class: 'btn'

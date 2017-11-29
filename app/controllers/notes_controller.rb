@@ -5,10 +5,10 @@ before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
   def index
     if user_signed_in?
       @users = current_user.followees
-      @notes = Note.where(id: @users)
+      @notes = Note.where(id: @users).reverse
     else
       @users = User.all
-      @notes = Note.all
+      @notes = Note.all.reverse
     end
     @note = Note.new
   end

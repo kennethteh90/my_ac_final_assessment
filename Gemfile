@@ -43,6 +43,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem "factory_bot_rails", "~> 4.0"
   gem 'rails-controller-testing'
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -62,3 +63,4 @@ gem 'devise'
 gem "slim-rails"
 gem 'bootstrap', '~> 4.0.0.beta2.1'
 gem 'simple_form'
+gem 'omniauth-facebook'
