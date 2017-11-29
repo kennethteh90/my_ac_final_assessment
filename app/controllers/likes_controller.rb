@@ -14,6 +14,7 @@ class LikesController < ApplicationController
     @note = Note.find(params[:id])
     if current_user.unlike(@note)
       flash[:notice] = "You have unliked the note!"
+      UserMailer.unlikenotification(@note.user).deliver_later
       redirect_to notes_path
     end
   end
