@@ -1,0 +1,21 @@
+h1.jumbotron Welcome to Kenneth's Notes App!
+
+.container
+  .row
+    .col-10.card.p-4.m-4
+      h2 Add a note!
+      = render partial: 'new'
+
+  .row
+    .col-5.card.p-4.m-3
+      h2 Users
+      - @users.each do |user|
+        = user.email
+    .col-5.card.p-4.m-3
+      h2 Notes
+      - @notes.each do |note|
+        h5 = note.title
+        p = note.body
+        = link_to 'Edit', edit_note_path(note), class: 'btn'
+        = link_to 'Delete', note_path(note), method: :delete, class: 'btn'
+        hr
