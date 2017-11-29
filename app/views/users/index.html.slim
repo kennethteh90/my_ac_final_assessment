@@ -10,4 +10,8 @@ h1.jumbotron Users | Kenneth's Notes App!
           p = 'Last Note: ' + user.notes.last.title + ' - ' + user.notes.last.body
         - else
           p This user hasn't posted anything!
+        - unless current_user.following?(user) || current_user == user
+          = link_to 'Follow', relationships_path(user), method: :create, class: 'btn btn-outline-primary'
+        - if current_user.following?(user)
+          = link_to 'Unfollow', relationship_path(user), method: :delete, class: 'btn btn-outline-danger'
         hr

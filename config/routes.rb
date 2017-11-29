@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   resources :notes
   resources :users, only: [:index]
+  resources :relationships, only: [:create, :destroy]
 
 end
