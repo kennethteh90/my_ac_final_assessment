@@ -22,7 +22,8 @@ before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
   end
 
   def destroy
-    Note.destroy(params[:id])
+    @note = Note.find(params[:id])
+    @note.destroy
     flash[:alert] = "Note deleted!"
     redirect_to notes_path
   end
@@ -33,10 +34,12 @@ before_action :authenticate_user!, only: [:create, :destroy, :edit, :update]
 
   def update
     @note = Note.find(params[:id])
-    # @note.update(note_params)
     if @note.update(note_params)
       flash[:notice] = "Note updated!"
       redirect_to notes_path
+    else
+      flash.now[:alert] = "Oops, note did not update!"
+      render :edit
     end
   end
 

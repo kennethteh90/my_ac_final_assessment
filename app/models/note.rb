@@ -5,4 +5,7 @@ class Note < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :likers, class_name: 'User', through: :likes
 
+  validates :title, presence: true
+  validates :body, presence: true
+
 end
